@@ -58,6 +58,15 @@
         font-size: 12px;
         color: #fff;
       }
+      .submit:active {
+        border: 2px solid rgb(72, 255, 0);
+      }
+      #weeks_btn:focus {
+        border: 2px solid #aa00f8;
+      }
+      #weekend_btn:focus {
+        border: 2px solid #aa00f8;
+      }
     </style>
   </head>
   <body>
@@ -65,8 +74,8 @@
       <!-- <input type="text" class="time_textarea" autofocus value="" placeholder="请粘贴打卡JSON数据" /> -->
       <textarea class="time_textarea" name="" id="textareaID" cols="30" rows="20" placeholder="请粘贴打卡JSON数据"></textarea>
       <div class="btn_box">
-        <button class="btn" onclick="changeStatus0(0)">周末除外</button>
-        <button class="btn" onclick="changeStatus1(1)">单独计算周末工时</button>
+        <button id="weeks_btn" class="btn" onclick="changeStatus0(0)">周末除外</button>
+        <button id="weekend_btn" class="btn" onclick="changeStatus1(1)">单独计算周末工时</button>
       </div>
       <button class="submit" onclick="calculateAlltimes()">解析</button>
       <!-- <div id="container"></div> -->
@@ -129,6 +138,8 @@
 
       // 周末除外的数据
       function changeStatus0(status) {
+        // let weeks_btn = document.getElementById("weeks_btn");
+        // weeks_btn.style.border = "1px solid #409eff";
         btnStatus = status;
         WorkStartTimeArray = [];
         WorkEndTimeArray = [];
