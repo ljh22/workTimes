@@ -68,6 +68,7 @@ a {
   font-size: 12px;
   text-align: center;
   margin-bottom: 10px;
+  cursor: pointer;
 }
 .img_box {
   display: none;
@@ -128,6 +129,7 @@ a {
   justify-content: space-between;
 }
 .show_model .model_btn_box .model_cancel {
+  cursor: pointer;
   text-align: center;
   line-height: 40px;
   width: 50%;
@@ -139,6 +141,7 @@ a {
   color: #000;
 }
 .show_model .model_btn_box .model_confirm {
+  cursor: pointer;
   text-align: center;
   line-height: 40px;
   width: 50%;

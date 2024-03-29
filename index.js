@@ -13,18 +13,18 @@ class ShowModel {
 
   init() {
     this.show();
-    this.model.addEventListener("click", (event) => {
-      if (event.target.classList.contains("model_cancel")) {
+    this.model.addEventListener('click', event => {
+      if (event.target.classList.contains('model_cancel')) {
         this.close();
-      } else if (event.target.classList.contains("model_confirm")) {
+      } else if (event.target.classList.contains('model_confirm')) {
         this.confirm();
       }
     });
   }
 
   show() {
-    this.model = document.createElement("div");
-    this.model.className = "show_model";
+    this.model = document.createElement('div');
+    this.model.className = 'show_model';
     this.model.innerHTML = `
       <div class="model_title">${this.title}</div>
       <div class="model_content">${this.content}</div>
@@ -37,12 +37,12 @@ class ShowModel {
   }
 
   close() {
-    this.model.style.display = "none";
+    this.model.style.display = 'none';
     this.model.remove(); //移除dom元素
   }
 
   confirm() {
-    this.model.style.display = "none";
+    this.model.style.display = 'none';
     this.model.remove();
   }
 }
@@ -53,27 +53,27 @@ let weekendArr = []; //周末数据
 let WorkStartTimeArray = []; // 开始时间
 
 let WorkEndTimeArray = []; // 结束时间
-let container = document.getElementById("container");
-let container2 = document.getElementById("container2");
+let container = document.getElementById('container');
+let container2 = document.getElementById('container2');
 
 let btnStatus = -1; //默认0  0-周六周日除外   1-包含周六周日
-let textareaID = document.getElementById("textareaID");
+let textareaID = document.getElementById('textareaID');
 
 // 监听textarea的输入
-textareaID.addEventListener("input", function () {
-  let textareaValue = document.querySelector("textarea").value.replace(/}, {/g, "}|{"); //将逗号替换为竖线
+textareaID.addEventListener('input', function () {
+  let textareaValue = document.querySelector('textarea').value.replace(/}, {/g, '}|{'); //将逗号替换为竖线
   // 如果textareaValue最后有逗号，则删除逗号
-  if (textareaValue.slice(-1) == ",") {
+  if (textareaValue.slice(-1) == ',') {
     textareaValue = textareaValue.slice(0, -1);
   }
   textareaValue = JSON.parse(textareaValue);
-  textareaValue.forEach((item) => {
+  textareaValue.forEach(item => {
     // 如果最后一个元素的type为1，则给数组最后再加入一个元素，该元素为之前的最后一个元素，并且把type改为2，时间加上10小时(标准8小时)
-    if (item.type == "1" && textareaValue[textareaValue.length - 1].type == "1") {
+    if (item.type == '1' && textareaValue[textareaValue.length - 1].type == '1') {
       textareaValue.push({
         ...textareaValue[textareaValue.length - 1],
-        type: "2",
-        checktime: formatDateTime(new Date(textareaValue[textareaValue.length - 1].checktime).getTime() + 10 * 60 * 60 * 1000),
+        type: '2',
+        checktime: formatDateTime(new Date(textareaValue[textareaValue.length - 1].checktime).getTime() + 10 * 60 * 60 * 1000)
       });
     }
   });
@@ -90,46 +90,36 @@ function formatDateTime(textareaTime) {
   var date = new Date(textareaTime);
   var y = date.getFullYear();
   var m = date.getMonth() + 1;
-  m = m < 10 ? "0" + m : m;
+  m = m < 10 ? '0' + m : m;
   var d = date.getDate();
-  d = d < 10 ? "0" + d : d;
+  d = d < 10 ? '0' + d : d;
   var h = date.getHours();
-  h = h < 10 ? "0" + h : h;
+  h = h < 10 ? '0' + h : h;
   var minute = date.getMinutes();
   var second = date.getSeconds();
-  minute = minute < 10 ? "0" + minute : minute;
-  second = second < 10 ? "0" + second : second;
-  return y + "-" + m + "-" + d + " " + h + ":" + minute + ":" + second;
+  minute = minute < 10 ? '0' + minute : minute;
+  second = second < 10 ? '0' + second : second;
+  return y + '-' + m + '-' + d + ' ' + h + ':' + minute + ':' + second;
 }
 
 /**
- *  周末除外的数据
- * @param {nnumber} status 控制按钮状态，0-周末除外   1-单独计算周末
+ *  选择计算哪种数据
+ * @param {number} status 控制按钮状态，0-周末除外   1-单独计算周末
  */
-function changeStatus0(status) {
+function changeStatus(status) {
+  if (workTime.length === 0) {
+    new ShowModel('提示', `请先输入数据`);
+    return;
+  }
+
   btnStatus = status;
   WorkStartTimeArray = [];
   WorkEndTimeArray = [];
 
-  workTime.forEach((item) => {
+  workTime.forEach(item => {
     const time = new Date(item.checktime);
-    if (time.getDay() <= 5) {
-      item.type === "1" ? WorkStartTimeArray.push(item.checktime) : WorkEndTimeArray.push(item.checktime);
-    }
-  });
-}
-/**
- * 单独计算周末工时
- * @param {nnumber} status 控制按钮状态，0-周末除外   1-单独计算周末
- */
-function changeStatus1(status) {
-  btnStatus = status;
-  WorkStartTimeArray = [];
-  WorkEndTimeArray = [];
-  workTime.forEach((item) => {
-    const time = new Date(item.checktime);
-    if (time.getDay() > 5) {
-      item.type === "1" ? WorkStartTimeArray.push(item.checktime) : WorkEndTimeArray.push(item.checktime);
+    if ((status === 0 && time.getDay() <= 5) || (status === 1 && time.getDay() > 5)) {
+      item.type === '1' ? WorkStartTimeArray.push(item.checktime) : WorkEndTimeArray.push(item.checktime);
     }
   });
 }
@@ -145,13 +135,13 @@ function calculateWorkTime(startTime, endTime) {
 
   //迟到
   if (start.getHours() >= 9 && start.getMinutes() >= 1) {
-    new ShowModel("迟到异常", `${startTime} 星期${start.getDay()}迟到,有打卡异常`);
+    new ShowModel('迟到异常', `${startTime} 星期${start.getDay()}迟到,有打卡异常`);
     // container.innerHTML = `${startTime} 星期${start.getDay()}迟到,有打卡异常`;
   }
   //早退
   if (end.getHours() < 17 || (end.getHours() === 17 && end.getMinutes() < 30)) {
     const alertMsg = `${endTime} 星期${end.getDay()}早退,有打卡异常`;
-    new ShowModel("早退异常", alertMsg);
+    new ShowModel('早退异常', alertMsg);
   }
 
   // 提前打卡或者迟到打卡
@@ -180,17 +170,17 @@ function calculateWorkTime(startTime, endTime) {
 }
 // 解析数据
 function calculateAlltimes() {
-  console.log("btnStatus: ", btnStatus);
+  console.log('btnStatus: ', btnStatus);
   if (workTime.length == 0) {
-    new ShowModel("提示", `请先输入数据`);
+    new ShowModel('提示', `请先输入数据`);
     return;
   }
   if (btnStatus == -1) {
-    new ShowModel("提示", `请选择"周末除外"或"单独计算周末"`);
+    new ShowModel('提示', `请选择"周末除外"或"单独计算周末"`);
     return;
   }
   if (WorkStartTimeArray.length !== WorkEndTimeArray.length) {
-    new ShowModel("缺失", `缺少${WorkStartTimeArray.length > WorkEndTimeArray.length ? "结束" : "开始"}工时`);
+    new ShowModel('缺失', `缺少${WorkStartTimeArray.length > WorkEndTimeArray.length ? '结束' : '开始'}工时`);
     return;
   }
 
@@ -212,20 +202,20 @@ function calculateAlltimes() {
     }
   }
 }
-let searchBox = document.getElementsByClassName("search")[0];
-let imgBox = document.getElementsByClassName("img_box")[0];
-let closeBox = document.getElementsByClassName("close_search")[0];
-searchBox.addEventListener("click", search);
-closeBox.addEventListener("click", closeSearch);
+let searchBox = document.getElementsByClassName('search')[0];
+let imgBox = document.getElementsByClassName('img_box')[0];
+let closeBox = document.getElementsByClassName('close_search')[0];
+searchBox.addEventListener('click', search);
+closeBox.addEventListener('click', closeSearch);
 // 是否打开查询方法DOM 元素
 function search() {
-  searchBox.style.display = "none";
-  imgBox.style.display = "block";
-  closeBox.style.display = "block";
+  searchBox.style.display = 'none';
+  imgBox.style.display = 'block';
+  closeBox.style.display = 'block';
 }
 // 是否关闭查询方法DOM 元素
 function closeSearch() {
-  searchBox.style.display = "";
-  imgBox.style.display = "none";
-  closeBox.style.display = "none";
+  searchBox.style.display = '';
+  imgBox.style.display = 'none';
+  closeBox.style.display = 'none';
 }
