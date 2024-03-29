@@ -4,102 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <style>
-      .big_box {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-      }
-      .time_textarea {
-        width: 80%;
-        height: 300px;
-        padding: 10px;
-        box-sizing: border-box;
-        font-size: 14px;
-        margin-bottom: 50px;
-      }
-      #container {
-        width: 50%;
-        color: red;
-        text-align: center;
-      }
-      #container2 {
-        margin-top: 30px;
-        width: 50%;
-        color: rgb(50, 50, 247);
-        font-size: 14px;
-        text-align: center;
-      }
-      .btn_box {
-        min-width: 45%;
-        width: 20%;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-bottom: 20px;
-      }
-      .btn_box .btn {
-        width: 46%;
-        height: 40px;
-        border: none;
-        border-radius: 5px;
-        background-color: #409eff;
-        font-size: 12px;
-        color: #fff;
-      }
-      .submit {
-        min-width: 45%;
-        width: 21%;
-        height: 40px;
-        border: none;
-        border-radius: 5px;
-        background-color: #409eff;
-        font-size: 12px;
-        color: #fff;
-      }
-      .submit:active {
-        border: 2px solid rgb(72, 255, 0);
-      }
-      #weeks_btn:focus {
-        border: 2px solid #aa00f8;
-      }
-      #weekend_btn:focus {
-        border: 2px solid #aa00f8;
-      }
-      .search {
-        font-size: 12px;
-        text-align: center;
-      }
-      .img_box {
-        display: none;
-        width: 60%;
-        margin: 0 auto;
-        margin-top: 20px;
-      }
-      .img_box img {
-        width: 100%;
-        margin-bottom: 10px;
-      }
-      .close_search {
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        background-color: #409eff;
-        color: #fff;
-        text-align: center;
-        line-height: 50px;
-        font-size: 15px;
-        /* 跟随页面滚动固定在右侧中间 */
-        position: fixed;
-        right: 5%;
-        bottom: 50%;
-        transform: translateY(-50%);
-        z-index: 999;
-        cursor: pointer;
-        display: none;
-      }
-    </style>
+    <link rel="stylesheet" href="./index.css" />
   </head>
   <body>
     <div class="big_box">
@@ -116,10 +21,16 @@
     <div class="search">如何使用？点这里</div>
     <div class="close_search">关闭</div>
     <div class="img_box">
+      1. 打开个人考勤，点击查看打卡数据，随后打开控制台（快捷键F12）点到 network 选项卡，清空请求数据
+      <br />
       <img src="https://foruda.gitee.com/images/1711614780301895326/9c11fc4b_10888693.png" alt="" />
       <img src="https://foruda.gitee.com/images/1711614915826357888/3812038f_10888693.png" alt="" />
+      2.清空数据后，选择50条数据，点击 getLocSetDataByPage 请求，切换到 response
+      <br />
       <img src="https://foruda.gitee.com/images/1711614969130527928/dc35a170_10888693.png" alt="" />
       <img src="https://foruda.gitee.com/images/1711615026549164653/9f871844_10888693.png" alt="" />
+      3.找到 items，点击左侧收起的小图标，之后仅仅复制这个数组,带不带后面的逗号均可以
+      <br />
       <img src="https://foruda.gitee.com/images/1711615092070250659/a95d1b2c_10888693.png" alt="" />
       <img src="https://foruda.gitee.com/images/1711615148303292328/279ba83a_10888693.png" alt="" />
     </div>
