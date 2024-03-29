@@ -25,7 +25,7 @@
   text-align: center;
 }
 .btn_box {
-  min-width: 45%;
+  max-width: 45%;
   width: 20%;
   display: flex;
   align-items: center;
@@ -42,7 +42,7 @@
   color: #fff;
 }
 .submit {
-  min-width: 45%;
+  max-width: 45%;
   width: 21%;
   height: 40px;
   border: none;
@@ -94,7 +94,7 @@
 }
 .show_model {
   border-radius: 10px;
-  width: 50%;
+  width: 15%;
   background-color: #fff;
   position: fixed;
   left: 50%;

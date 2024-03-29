@@ -1,3 +1,52 @@
+/**
+ * 公共弹窗
+ * @author liujiahui
+ * @param {string} title 弹窗标题
+ * @param {string} content 弹窗内容
+ */
+class ShowModel {
+  constructor(title, content) {
+    this.title = title;
+    this.content = content;
+    this.init();
+  }
+
+  init() {
+    this.show();
+    this.model.addEventListener("click", (event) => {
+      if (event.target.classList.contains("model_cancel")) {
+        this.close();
+      } else if (event.target.classList.contains("model_confirm")) {
+        this.confirm();
+      }
+    });
+  }
+
+  show() {
+    this.model = document.createElement("div");
+    this.model.className = "show_model";
+    this.model.innerHTML = `
+      <div class="model_title">${this.title}</div>
+      <div class="model_content">${this.content}</div>
+      <div class="model_btn_box">
+          <div class="model_cancel">关闭</div>
+          <div class="model_confirm">确定</div>
+      </div>
+    `;
+    document.body.appendChild(this.model);
+  }
+
+  close() {
+    this.model.style.display = "none";
+    this.model.remove(); //移除dom元素
+  }
+
+  confirm() {
+    this.model.style.display = "none";
+    this.model.remove();
+  }
+}
+
 let workTime = [];
 let weekendArr = []; //周末数据
 
@@ -29,7 +78,7 @@ textareaID.addEventListener("input", function () {
     }
   });
   workTime = textareaValue;
-  console.log("workTime: ", workTime);
+  // console.log("workTime: ", workTime);
 });
 
 /**
@@ -96,13 +145,13 @@ function calculateWorkTime(startTime, endTime) {
 
   //迟到
   if (start.getHours() >= 9 && start.getMinutes() >= 1) {
-    alert(`${startTime} 星期${start.getDay()}迟到,有打卡异常`);
+    new ShowModel("迟到异常", `${startTime} 星期${start.getDay()}迟到,有打卡异常`);
     // container.innerHTML = `${startTime} 星期${start.getDay()}迟到,有打卡异常`;
   }
   //早退
   if (end.getHours() < 17 || (end.getHours() === 17 && end.getMinutes() < 30)) {
     const alertMsg = `${endTime} 星期${end.getDay()}早退,有打卡异常`;
-    alert(alertMsg);
+    new ShowModel("早退异常", alertMsg);
   }
 
   // 提前打卡或者迟到打卡
@@ -133,15 +182,15 @@ function calculateWorkTime(startTime, endTime) {
 function calculateAlltimes() {
   console.log("btnStatus: ", btnStatus);
   if (workTime.length == 0) {
-    alert("请先输入数据");
+    new ShowModel("提示", `请先输入数据`);
     return;
   }
   if (btnStatus == -1) {
-    alert(`请选择"周末除外"或"单独计算周末"`);
+    new ShowModel("提示", `请选择"周末除外"或"单独计算周末"`);
     return;
   }
   if (WorkStartTimeArray.length !== WorkEndTimeArray.length) {
-    alert(WorkStartTimeArray.length > WorkEndTimeArray.length ? "缺少结束工时" : "缺少开始工时");
+    new ShowModel("缺失", `缺少${WorkStartTimeArray.length > WorkEndTimeArray.length ? "结束" : "开始"}工时`);
     return;
   }
 
@@ -163,9 +212,9 @@ function calculateAlltimes() {
     }
   }
 }
-var searchBox = document.getElementsByClassName("search")[0];
-var imgBox = document.getElementsByClassName("img_box")[0];
-var closeBox = document.getElementsByClassName("close_search")[0];
+let searchBox = document.getElementsByClassName("search")[0];
+let imgBox = document.getElementsByClassName("img_box")[0];
+let closeBox = document.getElementsByClassName("close_search")[0];
 searchBox.addEventListener("click", search);
 closeBox.addEventListener("click", closeSearch);
 // 是否打开查询方法DOM 元素
