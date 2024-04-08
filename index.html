@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>工时计算工具</title>
-    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon" />
     <link rel="stylesheet" href="./index.css" />
   </head>
   <body>
@@ -12,8 +12,8 @@
       <!-- <input type="text" class="time_textarea" autofocus value="" placeholder="请粘贴打卡JSON数据" /> -->
       <textarea class="time_textarea" name="" id="textareaID" cols="30" rows="20" placeholder="请粘贴打卡JSON数据"></textarea>
       <div class="btn_box">
-        <button id="weeks_btn" class="btn" onclick="changeStatus0(0)">周末除外</button>
-        <button id="weekend_btn" class="btn" onclick="changeStatus1(1)">单独计算周末工时</button>
+        <button id="weeks_btn" class="btn" onclick="changeStatus(0)">周末除外</button>
+        <button id="weekend_btn" class="btn" onclick="changeStatus(1)">单独计算周末工时</button>
       </div>
       <button class="submit" onclick="calculateAlltimes()">解析</button>
       <!-- <div id="container"></div> -->
