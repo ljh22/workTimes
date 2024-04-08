@@ -1,45 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Document</title>
-  <link rel="stylesheet" href="./index.css" />
-</head>
-
-<body>
-  <div class="big_box">
-    <!-- <input type="text" class="time_textarea" autofocus value="" placeholder="请粘贴打卡JSON数据" /> -->
-    <textarea class="time_textarea" name="" id="textareaID" cols="30" rows="20" placeholder="请粘贴打卡JSON数据"></textarea>
-    <div class="btn_box">
-      <button id="weeks_btn" class="btn" onclick="changeStatus(0)">周末除外</button>
-      <button id="weekend_btn" class="btn" onclick="changeStatus(1)">单独计算周末工时</button>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>工时计算工具</title>
+    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="./index.css" />
+  </head>
+  <body>
+    <div class="big_box">
+      <!-- <input type="text" class="time_textarea" autofocus value="" placeholder="请粘贴打卡JSON数据" /> -->
+      <textarea class="time_textarea" name="" id="textareaID" cols="30" rows="20" placeholder="请粘贴打卡JSON数据"></textarea>
+      <div class="btn_box">
+        <button id="weeks_btn" class="btn" onclick="changeStatus0(0)">周末除外</button>
+        <button id="weekend_btn" class="btn" onclick="changeStatus1(1)">单独计算周末工时</button>
+      </div>
+      <button class="submit" onclick="calculateAlltimes()">解析</button>
+      <!-- <div id="container"></div> -->
+      <div id="container2"></div>
     </div>
-    <button class="submit" onclick="calculateAlltimes()">解析</button>
-    <!-- <div id="container"></div> -->
-    <div id="container2"></div>
-  </div>
-  <div class="search">如何使用？点这里</div>
-  <a href="https://gitee.com/ljh-project/work-time" target="_blank">
-    <div class="search">有优化建议？点这里</div>
-  </a>
-  <div class="close_search">关闭</div>
-  <div class="img_box">
-    1. 打开个人考勤，点击查看打卡数据，随后打开控制台（快捷键F12）点到 network 选项卡，清空请求数据
-    <br />
-    <img src="https://foruda.gitee.com/images/1711614780301895326/9c11fc4b_10888693.png" alt="" />
-    <img src="https://foruda.gitee.com/images/1711614915826357888/3812038f_10888693.png" alt="" />
-    2.清空数据后，选择50条数据，点击 getLocSetDataByPage 请求，切换到 response
-    <br />
-    <img src="https://foruda.gitee.com/images/1711614969130527928/dc35a170_10888693.png" alt="" />
-    <img src="https://foruda.gitee.com/images/1711615026549164653/9f871844_10888693.png" alt="" />
-    3.找到 items，点击左侧收起的小图标，之后仅仅复制这个数组,带不带后面的逗号均可以
-    <br />
-    <img src="https://foruda.gitee.com/images/1711615092070250659/a95d1b2c_10888693.png" alt="" />
-    <img src="https://foruda.gitee.com/images/1711615148303292328/279ba83a_10888693.png" alt="" />
-  </div>
-  <script src="./index.js"></script>
-</body>
-
+    <div class="search">如何使用？点这里</div>
+    <a href="https://gitee.com/ljh-project/work-time" target="_blank">
+      <div class="search">有优化建议？点这里</div>
+    </a>
+    <div class="close_search">关闭</div>
+    <div class="img_box">
+      1. 打开个人考勤，点击查看打卡数据，随后打开控制台（快捷键F12）点到 network 选项卡，清空请求数据
+      <br />
+      <img src="https://foruda.gitee.com/images/1711614780301895326/9c11fc4b_10888693.png" alt="" />
+      <img src="https://foruda.gitee.com/images/1711614915826357888/3812038f_10888693.png" alt="" />
+      2.清空数据后，选择50条数据，点击 getLocSetDataByPage 请求，切换到 response
+      <br />
+      <img src="https://foruda.gitee.com/images/1711614969130527928/dc35a170_10888693.png" alt="" />
+      <img src="https://foruda.gitee.com/images/1711615026549164653/9f871844_10888693.png" alt="" />
+      3.找到 items，点击左侧收起的小图标，之后仅仅复制这个数组,带不带后面的逗号均可以
+      <br />
+      <img src="https://foruda.gitee.com/images/1711615092070250659/a95d1b2c_10888693.png" alt="" />
+      <img src="https://foruda.gitee.com/images/1711615148303292328/279ba83a_10888693.png" alt="" />
+    </div>
+    <script src="./index.js"></script>
+  </body>
 </html>

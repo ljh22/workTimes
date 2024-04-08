@@ -132,16 +132,20 @@ function changeStatus(status) {
 function calculateWorkTime(startTime, endTime) {
   let start = new Date(startTime);
   let end = new Date(endTime);
+  const days = ["日", "一", "二", "三", "四", "五", "六"];
 
-  //迟到
+  // 迟到判断
   if (start.getHours() >= 9 && start.getMinutes() >= 1) {
-    new ShowModel('迟到异常', `${startTime} 星期${start.getDay()}迟到,有打卡异常`);
-    // container.innerHTML = `${startTime} 星期${start.getDay()}迟到,有打卡异常`;
+    const dayOfWeek = days[start.getDay()];
+    new ShowModel("迟到异常", `${startTime} 星期${dayOfWeek}迟到,有打卡异常`);
   }
+
   //早退
   if (end.getHours() < 17 || (end.getHours() === 17 && end.getMinutes() < 30)) {
-    const alertMsg = `${endTime} 星期${end.getDay()}早退,有打卡异常`;
-    new ShowModel('早退异常', alertMsg);
+    const dayOfWeek = days[start.getDay()];
+
+    const alertMsg = `${endTime} 星期${dayOfWeek}早退,有打卡异常`;
+    new ShowModel("早退异常", alertMsg);
   }
 
   // 提前打卡或者迟到打卡
