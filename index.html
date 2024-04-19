@@ -17,8 +17,11 @@
       <button id="weeks_btn" class="btn" onclick="changeStatus(0)">周末除外</button>
       <button id="weekend_btn" class="btn" onclick="changeStatus(1)">单独计算周末工时</button>
     </div>
-    <input class="" value="" type="date" password="false" placeholder="选择日期">
-    </input>
+    <div class="date_box">
+      <div class="describe">选择需要计算的调休日期</div>
+      <input class="ipt_date" value="" type="date" placeholder="选择需要计算的调休日期">
+      </input>
+    </div>
 
     <button class="submit" onclick="calculateAlltimes()">解析</button>
     <!-- <div id="container"></div> -->
