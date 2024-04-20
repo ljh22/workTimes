@@ -17,15 +17,32 @@
       <button id="weeks_btn" class="btn" onclick="changeStatus(0)">周末除外</button>
       <button id="weekend_btn" class="btn" onclick="changeStatus(1)">单独计算周末工时</button>
     </div>
-    <div class="date_box" style="display: none;">
+    <div class="date_box">
       <div class="describe">选择需要计算的调休日期(正在优化)</div>
       <input class="ipt_date" value="" type="date">
       </input>
     </div>
 
     <button class="submit" onclick="calculateAlltimes()">解析</button>
-    <!-- <div id="container"></div> -->
     <div id="container2"></div>
+  </div>
+  <div class="table_box">
+    <table align="center">
+      <thead>
+        <tr>
+          <th>日期</th>
+          <th>有效工时</th>
+          <th>打卡时间</th>
+        </tr>
+      </thead>
+      <tbody align="center">
+        <!-- <tr class="tr_box">
+          <td>1</td>
+          <td>2</td>
+          <td>3</td>
+        </tr> -->
+      </tbody>
+    </table>
   </div>
   <div class="search">如何使用？点这里</div>
   <a href="https://gitee.com/ljh-project/work-time" target="_blank">

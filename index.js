@@ -49,6 +49,7 @@ class ShowModel {
 
 let workTime = [];
 let weekendArr = []; //周末数据
+let tableArr = []; //表格数据
 
 let WorkStartTimeArray = []; // 开始时间
 
@@ -60,6 +61,10 @@ let btnStatus = -1; //默认0  0-周六周日除外   1-包含周六周日
 let textareaID = document.getElementById("textareaID");
 
 let dateBox = document.getElementsByClassName("date_box")[0];
+
+// 获取类名为table_box中tbody中的tr元素
+let tbody = document.querySelector("tbody");
+console.log("tbody: ", tbody);
 
 // 监听textarea的输入
 textareaID.addEventListener("change", function () {
@@ -80,7 +85,6 @@ textareaID.addEventListener("change", function () {
     }
   });
   workTime = textareaValue;
-  // console.log("workTime: ", workTime);
 });
 
 /**
@@ -118,8 +122,6 @@ function changeStatus(status) {
   btnStatus = status;
   WorkStartTimeArray = [];
   WorkEndTimeArray = [];
-
-  dateBox.style.display = "flex";
 
   workTime.forEach((item) => {
     const time = new Date(item.checktime);
@@ -165,13 +167,36 @@ function calculateWorkTime(startTime, endTime) {
   }
   const timeDiff = end - start;
   let workTime = timeDiff / (1000 * 60 * 60);
-
+  tableArr = [];
   if (btnStatus == 0) {
     if (end.getHours() < 18) {
       workTime -= 1.5;
     } else {
       workTime -= 2; //17:30 到 18:00 半小时，中午1个半小时，总共2小时
     }
+    /**********
+     *
+     *
+     *
+     */
+    let dateTime = startTime.slice(0, 10);
+    let effectiveTime = workTime.toFixed(4);
+    let checkTime = startTime + "—" + endTime;
+    tableArr.push({
+      dateTime: dateTime,
+      effectiveTime: effectiveTime,
+      checkTime: checkTime,
+    });
+    tableArr.forEach((item) => {
+      // 把数组中的数据添加到tbody中的tr元素中
+      let tr = document.createElement("tr");
+      tr.innerHTML = `
+      <td>${item.dateTime}</td>
+      <td>${item.effectiveTime}</td>
+      <td>${item.checkTime}</td>
+    `;
+      tbody.appendChild(tr);
+    });
     console.log(`有效工时：${workTime.toFixed(4)}  打卡时间：${startTime} - ${endTime}`);
   } else if (btnStatus == 1) {
     workTime -= 1.5;
@@ -200,8 +225,6 @@ function calculateAlltimes() {
   let workAllTime = 0;
   weekendArr = []; // 把打印的周末数据先清空，防止累加重复打印
 
-  dateBox.style.display = "none";
-
   // 获取类名为ipt_date的元素
   let ipt_date = document.getElementsByClassName("ipt_date")[0];
 
@@ -224,6 +247,7 @@ function calculateAlltimes() {
       }
     });
   });
+  ipt_date.value = "";
   for (let i = 0; i < WorkStartTimeArray.length; i++) {
     const startTime = WorkStartTimeArray[i];
     const endTime = WorkEndTimeArray[i];
