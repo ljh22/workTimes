@@ -59,8 +59,10 @@ let container2 = document.getElementById("container2");
 let btnStatus = -1; //默认0  0-周六周日除外   1-包含周六周日
 let textareaID = document.getElementById("textareaID");
 
+let dateBox = document.getElementsByClassName("date_box")[0];
+
 // 监听textarea的输入
-textareaID.addEventListener("input", function () {
+textareaID.addEventListener("change", function () {
   let textareaValue = document.querySelector("textarea").value.replace(/}, {/g, "}|{"); //将逗号替换为竖线
   // 如果textareaValue最后有逗号，则删除逗号
   if (textareaValue.slice(-1) == ",") {
@@ -79,14 +81,6 @@ textareaID.addEventListener("input", function () {
   });
   workTime = textareaValue;
   // console.log("workTime: ", workTime);
-});
-
-// 获取类名为ipt_date的元素
-
-let ipt_date = document.getElementsByClassName("ipt_date")[0];
-
-ipt_date.addEventListener("input", function () {
-  console.log("ipt_date: ", ipt_date.value);
 });
 
 /**
@@ -125,13 +119,14 @@ function changeStatus(status) {
   WorkStartTimeArray = [];
   WorkEndTimeArray = [];
 
+  dateBox.style.display = "flex";
+
   workTime.forEach((item) => {
     const time = new Date(item.checktime);
     if (btnStatus == 0 && time.getDay() > 0 && time.getDay() <= 5) {
       item.type === "1" ? WorkStartTimeArray.push(item.checktime) : WorkEndTimeArray.push(item.checktime);
     }
     if (btnStatus == 1 && (time.getDay() == 6 || time.getDay() == 0)) {
-      console.log("time.getDay(): ", time.getDay());
       item.type === "1" ? WorkStartTimeArray.push(item.checktime) : WorkEndTimeArray.push(item.checktime);
     }
   });
@@ -204,6 +199,31 @@ function calculateAlltimes() {
 
   let workAllTime = 0;
   weekendArr = []; // 把打印的周末数据先清空，防止累加重复打印
+
+  dateBox.style.display = "none";
+
+  // 获取类名为ipt_date的元素
+  let ipt_date = document.getElementsByClassName("ipt_date")[0];
+
+  ipt_date.addEventListener("input", function () {
+    workTime.forEach((item) => {
+      if (item.type == "1" && ipt_date.value == item.dt) {
+        WorkStartTimeArray.push(item.checktime);
+
+        // 数组去重并排序
+        WorkStartTimeArray = [...new Set(WorkStartTimeArray)].sort((a, b) => {
+          return new Date(a) - new Date(b);
+        });
+      } else if (item.type == "2" && ipt_date.value == item.dt) {
+        WorkEndTimeArray.push(item.checktime);
+
+        // 数组去重并排序
+        WorkEndTimeArray = [...new Set(WorkEndTimeArray)].sort((a, b) => {
+          return new Date(a) - new Date(b);
+        });
+      }
+    });
+  });
   for (let i = 0; i < WorkStartTimeArray.length; i++) {
     const startTime = WorkStartTimeArray[i];
     const endTime = WorkEndTimeArray[i];
