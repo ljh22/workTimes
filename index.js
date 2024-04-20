@@ -81,6 +81,14 @@ textareaID.addEventListener("input", function () {
   // console.log("workTime: ", workTime);
 });
 
+// 获取类名为ipt_date的元素
+
+let ipt_date = document.getElementsByClassName("ipt_date")[0];
+
+ipt_date.addEventListener("input", function () {
+  console.log("ipt_date: ", ipt_date.value);
+});
+
 /**
  *  转换时间格式
  * @author liujiahui
@@ -107,6 +115,7 @@ function formatDateTime(textareaTime) {
  * @param {number} status 控制按钮状态，0-周末除外   1-单独计算周末
  */
 function changeStatus(status) {
+  console.log("status: ", status);
   if (workTime.length === 0) {
     new ShowModel("提示", `请先输入数据`);
     return;
@@ -118,13 +127,11 @@ function changeStatus(status) {
 
   workTime.forEach((item) => {
     const time = new Date(item.checktime);
-    // if ((status === 0 && time.getDay() <= 5) || (status === 1 && time.getDay() > 5)) {
-    //   item.type === "1" ? WorkStartTimeArray.push(item.checktime) : WorkEndTimeArray.push(item.checktime);
-    // }
-    if (status === 0 && time.getDay() > 0 && time.getDay() <= 5) {
+    if (btnStatus == 0 && time.getDay() > 0 && time.getDay() <= 5) {
       item.type === "1" ? WorkStartTimeArray.push(item.checktime) : WorkEndTimeArray.push(item.checktime);
     }
-    if (status === 1 && time.getDay() == 6 && time.getDay() == 0) {
+    if (btnStatus == 1 && (time.getDay() == 6 || time.getDay() == 0)) {
+      console.log("time.getDay(): ", time.getDay());
       item.type === "1" ? WorkStartTimeArray.push(item.checktime) : WorkEndTimeArray.push(item.checktime);
     }
   });
@@ -174,6 +181,7 @@ function calculateWorkTime(startTime, endTime) {
   } else if (btnStatus == 1) {
     workTime -= 1.5;
     let str = `有效工时：${workTime.toFixed(4)}  打卡时间：${startTime} - ${endTime}`;
+    console.log("str: ", str);
     weekendArr.push(str);
   }
   return workTime;

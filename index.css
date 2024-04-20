@@ -153,14 +153,18 @@ a {
   color: #000;
 }
 .date_box {
-  width: 60%;
+  width: 20%;
   margin-bottom: 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 .date_box .describe {
+  font-size: 14px;
 }
 .date_box .ipt_date {
   width: 45%;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  height: 25px;
 }
