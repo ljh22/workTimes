@@ -61,6 +61,7 @@ let btnStatus = -1; //默认0  0-周六周日除外   1-包含周六周日
 let textareaID = document.getElementById('textareaID');
 
 let dateBox = document.getElementsByClassName('date_box')[0];
+let tableBox = document.getElementsByClassName('table_box')[0];
 
 // 获取类名为table_box中tbody中的tr元素
 let tbody = document.querySelector('tbody');
@@ -218,6 +219,7 @@ function calculateAlltimes() {
     new ShowModel('缺失', `缺少${WorkStartTimeArray.length > WorkEndTimeArray.length ? '结束' : '开始'}工时`);
     return;
   }
+  tableBox.style.display = 'block';
   // 清空表格数据
   tbody.innerHTML = '';
   let workAllTime = 0;
@@ -244,6 +246,8 @@ function calculateAlltimes() {
         });
       }
     });
+    new ShowModel('提示', '已更新数据，请查看具体工时');
+    calculateAlltimes();
   });
   ipt_date.value = '';
   for (let i = 0; i < WorkStartTimeArray.length; i++) {

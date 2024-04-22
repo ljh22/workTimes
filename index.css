@@ -179,6 +179,7 @@ a {
   width: 80%;
   margin: 0 auto;
   margin-bottom: 20px;
+  display: none;
 }
 .table_box table {
   width: 100%;
