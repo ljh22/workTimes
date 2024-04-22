@@ -65,6 +65,13 @@ a {
 }
 .search {
   color: red;
+  font-size: 18px;
+  text-align: center;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+.search2 {
+  color: red;
   font-size: 12px;
   text-align: center;
   margin-bottom: 10px;
@@ -187,6 +194,9 @@ thead > tr > th {
   font-size: 18px;
   border: 2px solid #999;
 }
-.table_box table tbody tr {
+/* 偶数行样式 */
+
+.table_box table tbody tr:nth-child(2n - 1) {
   /* 设置表格的tr背景颜色每一行都颜色不同 */
+  background-color: rgb(195, 248, 255);
 }
