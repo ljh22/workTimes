@@ -216,10 +216,10 @@ a {
   padding: 5px 0;
   font-size: 14px;
 }
-thead > tr > th {
+.table_box table > thead > tr > th {
   background-color: #cce;
-  font-size: 18px;
-  border: 2px solid #999;
+  /* font-size: 18px; */
+  /* border: 2px solid #999; */
 }
 /* 偶数行样式 */
 
