@@ -279,13 +279,11 @@ searchBox.addEventListener("click", search);
 closeBox.addEventListener("click", closeSearch);
 // 是否打开查询方法DOM 元素
 function search() {
-  searchBox.style.display = "none";
   imgBox.style.display = "block";
   closeBox.style.display = "block";
 }
 // 是否关闭查询方法DOM 元素
 function closeSearch() {
-  searchBox.style.display = "";
   imgBox.style.display = "none";
   closeBox.style.display = "none";
 }

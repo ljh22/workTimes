@@ -10,15 +10,23 @@
 </head>
 
 <body>
+  <div class="tips">
+    <div class="search">如何使用？点这里</div>
+    <a href="https://gitee.com/ljh-project/work-time" target="_blank">
+      <div class="search2">有优化建议？点这里</div>
+    </a>
+    <a href="https://ics.chinasoftinc.com/index.html" target="_blank">
+      <div class="copyJson">前往复制数据</div>
+    </a>
+  </div>
   <div class="big_box">
-    <!-- <input type="text" class="time_textarea" autofocus value="" placeholder="请粘贴打卡JSON数据" /> -->
     <textarea class="time_textarea" name="" id="textareaID" cols="30" rows="20" placeholder="请粘贴打卡JSON数据"></textarea>
     <div class="btn_box">
       <button id="weeks_btn" class="btn" onclick="changeStatus(0)">周末除外</button>
       <button id="weekend_btn" class="btn" onclick="changeStatus(1)">单独计算周末工时</button>
     </div>
     <div class="date_box">
-      <div class="describe">选择需要计算的调休日期(正在优化)</div>
+      <div class="describe">选择需要计算的调休日期(<strong>持续优化~~</strong>)</div>
       <input class="ipt_date" value="" type="date">
       </input>
     </div>
@@ -40,10 +48,7 @@
       </tbody>
     </table>
   </div>
-  <div class="search">如何使用？点这里</div>
-  <a href="https://gitee.com/ljh-project/work-time" target="_blank">
-    <div class="search2">有优化建议？点这里</div>
-  </a>
+
   <div class="close_search">关闭</div>
   <div class="img_box">
     1. 打开个人考勤，点击查看打卡数据，随后打开控制台（快捷键F12）点到 network 选项卡，清空请求数据

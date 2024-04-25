@@ -1,14 +1,69 @@
 a {
   text-decoration: none;
 }
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.tips {
+  width: 13%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  position: absolute;
+  top: 1%;
+  left: 1%;
+  box-shadow: 1px 2px 1px 1px #9d9d9d;
+}
+.tips .search {
+  color: red;
+  font-size: 15px;
+  text-align: center;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+.tips .search2 {
+  color: rgb(245, 110, 110);
+  font-size: 12px;
+  text-align: center;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+.tips .copyJson {
+  color: #409eff;
+  font-size: 12px;
+  text-align: center;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+.close_search {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: #409eff;
+  color: #fff;
+  text-align: center;
+  line-height: 50px;
+  font-size: 15px;
+  position: fixed;
+  right: 5%;
+  bottom: 50%;
+  transform: translateY(-50%);
+  z-index: 999;
+  cursor: pointer;
+  display: none;
+}
+
 .big_box {
+  margin-top: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 }
 .time_textarea {
-  width: 80%;
+  width: 60%;
   height: 300px;
   padding: 10px;
   box-sizing: border-box;
@@ -63,20 +118,7 @@ a {
 #weekend_btn:focus {
   border: 2px solid #aa00f8;
 }
-.search {
-  color: red;
-  font-size: 18px;
-  text-align: center;
-  margin-bottom: 10px;
-  cursor: pointer;
-}
-.search2 {
-  color: red;
-  font-size: 12px;
-  text-align: center;
-  margin-bottom: 10px;
-  cursor: pointer;
-}
+
 .img_box {
   display: none;
   width: 60%;
@@ -87,23 +129,7 @@ a {
   width: 100%;
   margin-bottom: 10px;
 }
-.close_search {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background-color: #409eff;
-  color: #fff;
-  text-align: center;
-  line-height: 50px;
-  font-size: 15px;
-  position: fixed;
-  right: 5%;
-  bottom: 50%;
-  transform: translateY(-50%);
-  z-index: 999;
-  cursor: pointer;
-  display: none;
-}
+
 .show_model {
   border-radius: 10px;
   width: 15%;
