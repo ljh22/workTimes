@@ -242,9 +242,6 @@ dialog {
   padding: 0px;
   /* 立体感 */
   box-shadow: 0 0 20px #838383;
-}
-
-dialog {
   transition: opacity 0.4s ease;
   opacity: 1;
 }
