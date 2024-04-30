@@ -69,6 +69,8 @@ body {
   box-sizing: border-box;
   font-size: 14px;
   margin-bottom: 50px;
+  border-radius: 10px;
+  box-shadow: 0 0 6px #838383;
 }
 #container {
   width: 50%;
@@ -234,9 +236,23 @@ body {
   background-color: rgba(255, 0, 0, 0.116);
 } */
 dialog {
+  width: 23%;
   border: none;
   border-radius: 8px;
   padding: 0px;
+  /* 立体感 */
+  box-shadow: 0 0 20px #838383;
+}
+
+dialog {
+  transition: opacity 0.4s ease;
+  opacity: 1;
+}
+
+dialog:not([open]) {
+  display: block;
+  opacity: 0;
+  visibility: hidden;
 }
 .dialog_box .dialog_title {
   padding: 10px;
@@ -246,7 +262,7 @@ dialog {
   margin-bottom: 10px;
 }
 .dialog_box .dialog_content {
-  padding: 0 15px 10px 15px;
+  padding: 0 20px 10px 20px;
   text-align: center;
   font-size: 14px;
   margin-bottom: 10px;
