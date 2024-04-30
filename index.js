@@ -5,44 +5,41 @@
  * @param {string} content 弹窗内容
  */
 class ShowModel {
-  constructor(title, content) {
+  constructor(title, content, backgroundMask = false) {
     this.title = title;
     this.content = content;
+    this.backgroundMask = backgroundMask;
+    this.dialog = document.querySelector("dialog");
+    // 给dialog标签添加属性backgroundMask
+    this.dialog.setAttribute("backgroundMask", this.backgroundMask);
     this.init();
   }
 
   init() {
     this.show();
-    this.model.addEventListener("click", (event) => {
-      if (event.target.classList.contains("model_cancel")) {
+    this.dialog.addEventListener("click", (event) => {
+      if (event.target.classList.contains("dialog_cancel") || (event.target.tagName == "DIALOG" && this.backgroundMask == true)) {
         this.close();
-      } else if (event.target.classList.contains("model_confirm")) {
-        this.confirm();
       }
     });
   }
 
   show() {
+    this.dialog.showModal();
     this.model = document.createElement("div");
-    this.model.className = "show_model";
+    this.model.className = "dialog_box";
     this.model.innerHTML = `
-      <div class="model_title">${this.title}</div>
-      <div class="model_content">${this.content}</div>
-      <div class="model_btn_box">
-          <div class="model_cancel">关闭</div>
-          <div class="model_confirm">确定</div>
+      <div class="dialog_title">${this.title}</div>
+      <div class="dialog_content">${this.content}</div>
+      <div class="dialog_btn_box">
+          <div class="dialog_cancel">关&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;闭</div>
       </div>
     `;
-    document.body.appendChild(this.model);
+    this.dialog.appendChild(this.model);
   }
 
   close() {
-    this.model.style.display = "none";
-    this.model.remove(); //移除dom元素
-  }
-
-  confirm() {
-    this.model.style.display = "none";
+    this.dialog.close(); //移除dom元素
     this.model.remove();
   }
 }
@@ -110,10 +107,10 @@ ipt_date.addEventListener("input", function () {
     }
   });
   if (workTime.length == 0) {
-    new ShowModel("提示", `请先输入数据`);
+    new ShowModel("提示", `请先输入数据`, true);
     return;
   }
-  new ShowModel("提示", "已更新数据，请查看具体工时");
+  new ShowModel("提示", "已更新数据，请查看具体工时", true);
   calculateAlltimes();
 });
 
@@ -145,7 +142,7 @@ function formatDateTime(textareaTime) {
 function changeStatus(status) {
   console.log("status: ", status);
   if (workTime.length === 0) {
-    new ShowModel("提示", `请先输入数据`);
+    new ShowModel("提示", `请先输入数据`, true);
     return;
   }
 
@@ -177,7 +174,7 @@ function calculateWorkTime(startTime, endTime) {
   // 迟到判断
   if (start.getHours() >= 9 && start.getMinutes() >= 1) {
     const dayOfWeek = days[start.getDay()];
-    new ShowModel("迟到异常", `${startTime} 星期${dayOfWeek}迟到,有打卡异常`);
+    new ShowModel("迟到异常", `${startTime} 星期${dayOfWeek}迟到,有打卡异常`, true);
   }
 
   //早退
@@ -185,7 +182,7 @@ function calculateWorkTime(startTime, endTime) {
     const dayOfWeek = days[start.getDay()];
 
     const alertMsg = `${endTime} 星期${dayOfWeek}早退,有打卡异常`;
-    new ShowModel("早退异常", alertMsg);
+    new ShowModel("早退异常", alertMsg, true);
   }
 
   // 提前打卡或者迟到打卡
@@ -238,15 +235,15 @@ function calculateWorkTime(startTime, endTime) {
 function calculateAlltimes() {
   console.log("btnStatus: ", btnStatus);
   if (workTime.length == 0) {
-    new ShowModel("提示", `请先输入数据`);
+    new ShowModel("提示", `请先输入数据`, true);
     return;
   }
   if (btnStatus == -1) {
-    new ShowModel("提示", `请选择"周末除外"或"单独计算周末"`);
+    new ShowModel("提示", `请选择"周末除外"或"单独计算周末"`, true);
     return;
   }
   if (WorkStartTimeArray.length !== WorkEndTimeArray.length) {
-    new ShowModel("缺失", `缺少${WorkStartTimeArray.length > WorkEndTimeArray.length ? "结束" : "开始"}工时`);
+    new ShowModel("缺失", `缺少${WorkStartTimeArray.length > WorkEndTimeArray.length ? "结束" : ",true开始"}工时`);
     return;
   }
   tableBox.style.display = "block";
@@ -287,3 +284,13 @@ function closeSearch() {
   imgBox.style.display = "none";
   closeBox.style.display = "none";
 }
+// // 调试dialog对话框
+// let dialog = document.querySelector("dialog");
+// let dialogCancel = document.querySelector(".dialog_box .dialog_btn_box .dialog_cancel");
+// function openDialog() {
+//   dialog.showModal();
+//   dialogCancel.addEventListener("click", closeDialog);
+// }
+// function closeDialog() {
+//   dialog.close();
+// }
