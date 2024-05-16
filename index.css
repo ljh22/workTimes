@@ -5,27 +5,62 @@ body {
   margin: 0;
   padding: 0;
 }
+@keyframes big_box_move {
+  from {
+    transform: scale(0.5);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+@keyframes tips_move_left {
+  from {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
 
+  to {
+    top: 50%;
+    left: 2%;
+    transform: translateY(-50%);
+  }
+}
+@keyframes tips_move_up {
+  from {
+    top: 50%;
+    left: 2%;
+    transform: translateY(-50%);
+  }
+
+  to {
+    top: 3%;
+    left: 2%;
+  }
+}
 .tips {
-  width: 13%;
+  width: 15%;
   padding: 10px;
   border-radius: 8px;
-  border: 1px solid #ccc;
   position: absolute;
-  top: 1%;
-  left: 1%;
-  box-shadow: 1px 2px 1px 1px #9d9d9d;
+  top: 3%;
+  left: 2%;
+  background-color: #fff;
+  box-shadow: 1px 1px 3px 2px #9d9d9d;
+  animation: tips_move_left 1000ms linear 0s, tips_move_up 1500ms linear 1s;
 }
 .tips .search {
   color: red;
-  font-size: 15px;
+  font-size: 21px;
+  font-weight: bold;
   text-align: center;
   margin-bottom: 10px;
   cursor: pointer;
+  text-shadow: 2px 2px 2px #262626;
 }
 .tips .search2 {
   color: rgb(245, 110, 110);
-  font-size: 12px;
+  font-size: 16px;
   text-align: center;
   margin-bottom: 10px;
   cursor: pointer;
@@ -61,7 +96,9 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  animation: big_box_move 500ms linear 0s 1 normal;
 }
+
 .time_textarea {
   width: 60%;
   height: 300px;
@@ -130,8 +167,10 @@ body {
   margin-top: 20px;
 }
 .img_box img {
-  width: 100%;
+  width: 80%;
   margin-bottom: 10px;
+  border-radius: 5px;
+  box-shadow: 0 0 6px #9d9d9d;
 }
 
 .show_model {
@@ -232,18 +271,30 @@ body {
   background-color: rgb(195, 248, 255);
 }
 
-/* dialog::backdrop {
-  background-color: rgba(255, 0, 0, 0.116);
-} */
+dialog::backdrop {
+  /* background-color: rgba(255, 0, 0, 0.116); */
+}
 dialog {
   width: 23%;
-  border: none;
+  border: none !important;
   border-radius: 8px;
   padding: 0px;
   /* 立体感 */
   box-shadow: 0 0 20px #838383;
   transition: opacity 0.4s ease;
   opacity: 1;
+}
+dialog::-webkit-scrollbar {
+  width: 5px;
+  height: 3px;
+  background-color: #a6a1a1;
+  border-radius: 5px;
+}
+dialog::-webkit-scrollbar-thumb {
+  width: 5px;
+  height: 3px;
+  background-color: #eacaca;
+  border-radius: 5px;
 }
 
 dialog:not([open]) {

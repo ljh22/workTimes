@@ -44,6 +44,7 @@ class ShowModel {
   }
 }
 
+let isShowDialog = false;
 let workTime = [];
 let weekendArr = []; //周末数据
 let tableArr = []; //表格数据
@@ -55,6 +56,7 @@ let container = document.getElementById("container");
 let container2 = document.getElementById("container2");
 
 let btnStatus = -1; //默认0  0-周六周日除外   1-包含周六周日
+let localStatus = -1; //默认0  0-周六周日除外   1-包含周六周日
 let textareaID = document.getElementById("textareaID");
 
 let dateBox = document.getElementsByClassName("date_box")[0];
@@ -62,7 +64,7 @@ let tableBox = document.getElementsByClassName("table_box")[0];
 
 // 获取类名为table_box中tbody中的tr元素
 let tbody = document.querySelector("tbody");
-console.log("tbody: ", tbody);
+// console.log("tbody: ", tbody);
 
 // 监听textarea的输入
 textareaID.addEventListener("change", function () {
@@ -83,12 +85,27 @@ textareaID.addEventListener("change", function () {
     }
   });
   workTime = textareaValue;
+  pushTimes(); //输入完数据后，调用pushTimes方法，处理数据
+  calculateAlltimes(); // 随后调用calculateAlltimes方法，计算工时
 });
-
+// ***********************************处理日历选择 start***********************************
 // 获取类名为ipt_date的元素
 let ipt_date = document.getElementsByClassName("ipt_date")[0];
+let today = new Date();
 // 选择日历后，触发事件
 ipt_date.addEventListener("input", function () {
+  let month = new Date().getMonth() + 1; // 获取当前日期的星期几
+  month = month < 10 ? "0" + month : month;
+  let chooseMonthNow = ipt_date.value.slice(5, 7);
+
+  if (chooseMonthNow > month || chooseMonthNow < month) {
+    let message = chooseMonthNow > month ? `所选日期不能<strong style="font-size: 16px;">大于</strong>当前月` : `所选日期不能<strong style="font-size: 16px;">小于</strong>当前月`;
+
+    new ShowModel("提示", message, true);
+    ipt_date.value = "";
+    return;
+  }
+
   workTime.forEach((item) => {
     if (item.type == "1" && ipt_date.value == item.dt) {
       WorkStartTimeArray.push(item.checktime);
@@ -108,11 +125,18 @@ ipt_date.addEventListener("input", function () {
   });
   if (workTime.length == 0) {
     new ShowModel("提示", `请先输入数据`, true);
+    ipt_date.value = "";
+    return;
+  }
+  if (btnStatus == -1) {
+    new ShowModel("提示", `请选择"周末除外"或"单独计算周末"`, true);
+    ipt_date.value = "";
     return;
   }
   new ShowModel("提示", "已更新数据，请查看具体工时", true);
   calculateAlltimes();
 });
+// ***********************************处理日历选择 end***********************************
 
 /**
  *  转换时间格式
@@ -141,12 +165,25 @@ function formatDateTime(textareaTime) {
  */
 function changeStatus(status) {
   console.log("status: ", status);
+  if (workTime.length === 0 && isShowDialog == false) {
+    new ShowModel("使用提示", `开始使用可以点击左侧tips来查看如何使用工具`, true);
+    isShowDialog = true;
+    return;
+  }
   if (workTime.length === 0) {
     new ShowModel("提示", `请先输入数据`, true);
     return;
   }
-
-  btnStatus = status;
+  localStorage.setItem("localStatus", status);
+  localStatus = localStorage.getItem("localStatus", status);
+  pushTimes();
+}
+/**
+ * 处理数据，把数据按照type分类
+ *
+ */
+function pushTimes() {
+  btnStatus = localStatus;
   WorkStartTimeArray = [];
   WorkEndTimeArray = [];
 
@@ -201,39 +238,46 @@ function calculateWorkTime(startTime, endTime) {
       workTime -= 2; //17:30 到 18:00 半小时，中午1个半小时，总共2小时
     }
 
-    let dateTime = startTime.slice(0, 10);
-    let effectiveTime = workTime.toFixed(4);
-    let checkTime = startTime + "—" + endTime;
-    tableArr = [];
-    tableArr.push({
-      dateTime: dateTime,
-      effectiveTime: effectiveTime,
-      checkTime: checkTime,
-    });
-    // 把数组中的数据添加到tbody中的tr元素中
-    let tr = document.createElement("tr");
-    tableArr.forEach((item) => {
-      tr.innerHTML = `
-      <td>${item.dateTime}</td>
-      <td>${item.effectiveTime}</td>
-      <td>${item.checkTime}</td>
-      `;
-      tbody.appendChild(tr);
-      console.log("tbody: ", tbody);
-    });
     console.log(`有效工时：${workTime.toFixed(4)}  打卡时间：${startTime} - ${endTime}`);
   } else if (btnStatus == 1) {
     workTime -= 1.5;
     let str = `有效工时：${workTime.toFixed(4)}  打卡时间：${startTime} - ${endTime}`;
-    console.log("str: ", str);
+    // console.log("str: ", str);
     weekendArr.push(str);
   }
+  // ***********************把数据渲染到表格中 start*************************
+  let dateTime = startTime.slice(0, 10);
+  let effectiveTime = workTime.toFixed(4);
+  let checkTime = startTime + "—" + endTime;
+  tableArr = [];
+  tableArr.push({
+    dateTime: dateTime,
+    effectiveTime: effectiveTime,
+    checkTime: checkTime,
+  });
+  // 把数组中的数据添加到tbody中的tr元素中
+  let tr = document.createElement("tr");
+  tableArr.forEach((item) => {
+    tr.innerHTML = `
+      <td>${item.dateTime}</td>
+      <td>${item.effectiveTime}</td>
+      <td>${item.checkTime}</td>
+      `;
+    tbody.appendChild(tr);
+    // console.log("tbody: ", tbody);
+  });
+  // ***********************把数据渲染到表格中 end*************************
   return workTime;
 }
 
 // 解析数据
 function calculateAlltimes() {
   console.log("btnStatus: ", btnStatus);
+  if (workTime.length === 0 && isShowDialog == false) {
+    new ShowModel("使用提示", `开始使用可以点击左侧tips来查看如何使用工具`, true);
+    isShowDialog = true;
+    return;
+  }
   if (workTime.length == 0) {
     new ShowModel("提示", `请先输入数据`, true);
     return;
@@ -284,13 +328,3 @@ function closeSearch() {
   imgBox.style.display = "none";
   closeBox.style.display = "none";
 }
-// // 调试dialog对话框
-// let dialog = document.querySelector("dialog");
-// let dialogCancel = document.querySelector(".dialog_box .dialog_btn_box .dialog_cancel");
-// function openDialog() {
-//   dialog.showModal();
-//   dialogCancel.addEventListener("click", closeDialog);
-// }
-// function closeDialog() {
-//   dialog.close();
-// }
